@@ -32,4 +32,15 @@ public class _01_04_PalindromePermutationTest {
     public void withTwoWords_EvenLetters() {
         assertTrue(s.check("act cat"));
     }
+
+    @Test
+    public void withTwoWords_Numbers() {
+        assertTrue(s.check("act0cat"));
+    }
+
+    @Test
+    public void sentenceWithCommasAndCapitalLetters() {
+        assertTrue(s.check("A man a plan, a canal ,Panama"));
+    }
+
 }
