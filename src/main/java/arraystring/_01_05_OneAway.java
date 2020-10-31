@@ -1,5 +1,12 @@
 package arraystring;
 
+
+
+
+
+import java.util.*;
+
+
 /**
  * There are three types of edits that can be performed on strings:
  * insert a character, remove a character, or replace a character.
@@ -13,38 +20,40 @@ package arraystring;
  */
 class _01_05_OneAway {
     boolean isOneAway(String a, String b) {
-        if (a.length() == b.length()) {
-            return oneReplace(a, b);
-        } else if (a.length() - b.length() == 1) {
-            return oneInsertion(a, b);
-        } else if (b.length() - a.length() == 1) {
-            return oneInsertion(b, a);
-        } else {
-            return false;
+        Set<Character> hs1 = new HashSet<Character>();
+        Set<Character> hs2 = new HashSet<Character>();
+        hs1.addAll(convertToSet(a.toCharArray()));
+        hs2.addAll(convertToSet(b.toCharArray()));
+        Set<Character> hs1Copy = new HashSet<Character>(hs1);
+
+        hs1.removeAll(hs2);
+        hs2.removeAll(hs1Copy);
+
+        if ((hs1.size() ==0 && hs2.size() ==1) || (hs2.size() ==0 && hs1.size() ==1))
+        {
+            return true;
         }
+        else if (hs1.size()==1 && hs2.size()==1)
+        {
+            return true;
+        }
+        else if (hs1.size()==0 && hs2.size() ==0)
+            return true;
+        return false;
     }
 
-    private boolean oneInsertion(String longStr, String shortStr) {
-        boolean insert = false;
-        for (int i = 0, j = 0; i < shortStr.length(); i++, j++) {
-            if (shortStr.charAt(i) != longStr.charAt(j)) {
-                if (insert) return false;
-                insert = true;
-                i--;
-            }
+
+    public static Set convertToSet(char[] charArray) {
+
+        // Result hashset
+        Set resultSet = new HashSet();
+
+        for (int i = 0; i < charArray.length; i++) {
+            resultSet.add(new Character(charArray[i]));
         }
 
-        return true;
+        // Return result
+        return resultSet;
     }
 
-    private boolean oneReplace(String a, String b) {
-        boolean replace = false;
-        for (int i = 0; i < a.length(); i++) {
-            if (a.charAt(i) != b.charAt(i)) {
-                if (replace) return false;
-                replace = true;
-            }
-        }
-        return true;
-    }
 }
